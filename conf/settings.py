@@ -42,7 +42,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'conf.urls'
 
-# Configuration des Templates (Corrigé : Requis pour l'admin Django)
+# Configuration des Templates (Requis pour l'admin Django)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -102,15 +102,17 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # ==============================================================================
-# CONFIGURATION DE SÉCURITÉ AVANCÉE (PROD)
+# CONFIGURATION DE SÉCURITÉ ET DE PRODUCTION AVANCÉE (PROD)
 # ==============================================================================
 if not DEBUG:
-    # 1. Optimisation WhiteNoise pour la prod
+    # 1. Optimisation WhiteNoise et correction des fichiers manquants (.map)
     STORAGES = {
         "staticfiles": {
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
         },
     }
+    # Indique à WhiteNoise de ne pas planter si un fichier source (.map) est introuvable
+    WHITENOISE_MANIFEST_STRICT = False
 
     # 2. Sécurisation des cookies (Empêche l'interception et le vol de session)
     SESSION_COOKIE_SECURE = True
@@ -134,5 +136,5 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
-    # 4. Protection contre le Clickjacking (Déjà renforcé par le middleware)
+    # 4. Protection contre le Clickjacking
     X_FRAME_OPTIONS = 'DENY'
