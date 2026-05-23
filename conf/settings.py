@@ -42,7 +42,21 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'conf.urls'
 
-# ... (Garde ton bloc TEMPLATES inchangé) ...
+# Configuration des Templates (Corrigé : Requis pour l'admin Django)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 WSGI_APPLICATION = 'conf.wsgi.application'
 
@@ -56,7 +70,22 @@ DATABASES = {
     }
 }
 
-# ... (Garde ton bloc AUTH_PASSWORD_VALIDATORS inchangé) ...
+
+# Password validation
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
 
 
 # Internationalization
