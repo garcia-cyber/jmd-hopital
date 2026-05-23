@@ -1,0 +1,10 @@
+asgiref==3.11.1
+Django==6.0.5
+environs==15.0.1
+gunicorn==26.0.0
+marshmallow==4.3.0
+packaging==26.2
+python-dotenv==1.2.2
+sqlparse==0.5.5
+tzdata==2026.2
+whitenoise==6.12.0
