@@ -20,7 +20,8 @@ SECRET_KEY = env.str(
     default="django-insecure-change-this-key"
 )
 
-DEBUG = env.bool("DEBUG", default=False)
+# True en local par défaut, sera False sur Render si tu as configuré DEBUG=False
+DEBUG = env.bool("DEBUG", default=True)
 
 ALLOWED_HOSTS = env.list(
     "ALLOWED_HOSTS",
@@ -50,7 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
-    # WhiteNoise
+    # WhiteNoise (Actif en local et prod, gère les fichiers statiques de manière fluide)
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -60,10 +61,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-# ==============================================================================
-# URLS & WSGI
-# ==============================================================================
 
 ROOT_URLCONF = 'conf.urls'
 
@@ -136,7 +133,7 @@ USE_I18N = True
 USE_TZ = True
 
 # ==============================================================================
-# STATIC FILES
+# STATIC FILES (Configuration de base commune)
 # ==============================================================================
 
 STATIC_URL = '/static/'
@@ -147,15 +144,6 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# WhiteNoise Storage
-STORAGES = {
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-
-WHITENOISE_MANIFEST_STRICT = False
-
 # ==============================================================================
 # DEFAULT PRIMARY KEY
 # ==============================================================================
@@ -163,34 +151,53 @@ WHITENOISE_MANIFEST_STRICT = False
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ==============================================================================
-# CONFIGURATION PRODUCTION
+# CONFIGURATION AUTOMATIQUE : LOCAL VS PRODUCTION
 # ==============================================================================
 
 if not DEBUG:
+    # --------------------------------------------------------------------------
+    # CONFIGURATION POUR RENDER (EN LIGNE)
+    # --------------------------------------------------------------------------
+    
+    # 1. Stockage WhiteNoise optimisé pour la prod (ne plante pas si des fichiers ou .map manquent)
+    STORAGES = {
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        },
+    }
+    WHITENOISE_MANIFEST_STRICT = False
 
-    # HTTPS derrière Render
+    # 2. HTTPS derrière le Reverse Proxy de Render
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-    # Force HTTPS
     SECURE_SSL_REDIRECT = True
 
-    # Cookies sécurisés
+    # 3. Cookies sécurisés
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-
     SESSION_COOKIE_HTTPONLY = True
-
     SESSION_COOKIE_SAMESITE = 'Lax'
     CSRF_COOKIE_SAMESITE = 'Lax'
 
-    # Protection navigateur
-    SECURE_BROWSER_XSS_FILTER = True
+    # 4. Protection navigateur
+    # (Désactivé car obsolète dans les navigateurs modernes et peut forcer le HTTPS en local)
+    SECURE_BROWSER_XSS_FILTER = False 
     SECURE_CONTENT_TYPE_NOSNIFF = True
 
-    # HSTS
+    # 5. HSTS (Force le HTTPS côté client uniquement en production)
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
-    # Anti Clickjacking
+    # 6. Anti Clickjacking
     X_FRAME_OPTIONS = 'DENY'
+
+else:
+    # --------------------------------------------------------------------------
+    # DESACTIVATION STRICTE DU HTTPS POUR LE MODE LOCAL (DEVELOPPEMENT)
+    # --------------------------------------------------------------------------
+    SECURE_SSL_REDIRECT = False
+    SECURE_HSTS_SECONDS = 0
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False

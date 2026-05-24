@@ -1,543 +1,459 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="fr">
-    {% load static %}
 
-    <head>
-        <!-- Meta -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="JMC Hospital - Système Intégré de Gestion Hospitalière">
-        <meta name="author" content="JMC">
-        
-        <!-- SITE TITLE -->
-        <title>JMD Hospital — ERP Médical</title>          
-        
-        <!-- Latest Bootstrap min CSS -->
-        <link rel="stylesheet" href="{% static 'front-end/assets/bootstrap/css/bootstrap.min.css' %}">       
-        <!-- Google Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800"> 
-        <!-- Font Awesome & Icons -->
-        <link rel="stylesheet" href="{% static 'front-end/assets/fonts/font-awesome.min.css' %}">
-        <link rel="stylesheet" href="{% static 'front-end/assets/fonts/themify-icons.css' %}">
-        <!--- Owl Carousel Css-->
-        <link rel="stylesheet" href="{% static 'front-end/assets/owlcarousel/css/owl.carousel.css' %}">
-        <link rel="stylesheet" href="{% static 'front-end/assets/owlcarousel/css/owl.theme.css' %}">
-        <!-- Animate & Magnific CSS -->
-        <link rel="stylesheet" href="{% static 'front-end/assets/css/fonts.css' %}">     
-        <link rel="stylesheet" href="{% static 'front-end/assets/css/animate.css' %}">                   
-        <link rel="stylesheet" href="{% static 'front-end/assets/css/magnific-popup.css' %}">                    
-        <!-- Styles Métier de base -->                      
-        <link rel="stylesheet" href="{% static 'front-end/assets/css/menu.css' %}">          
-        <link rel="stylesheet" href="{% static 'front-end/assets/css/style.css' %}">         
-        <link rel="stylesheet" href="{% static 'front-end/assets/css/responsive.css' %}">            
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>JMD Hôpital - Gestion & Soins</title>
+  <meta name="description" content="Système de gestion hospitalière et plateforme de soins.">
+  <meta name="keywords" content="hôpital, santé, prise de rendez-vous, gestion médicale">
 
-        <!-- 🎨 DESIGN COMPLET — ARCHITECTURE LOGICIELLE MÉDICALE -->
-        <style>
-            :root {
-                --md-primary: #0284c7;       /* Bleu clinique moderne */
-                --md-primary-hover: #0369a1; 
-                --md-success: #0d9488;       /* Vert soin/pharmacie */
-                --md-success-hover: #0f766e;
-                --md-dark: #0f172a;          /* Slate très sombre pour le texte lisible */
-                --md-body: #f8fafc;          /* Fond de page très doux pour réduire la fatigue visuelle */
-                --md-muted: #64748b;
-                --radius-sm: 8px;
-                --radius-lg: 16px;
-                --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-                --shadow-md: 0 10px 15px -3px rgba(2, 132, 199, 0.06), 0 4px 6px -4px rgba(2, 132, 199, 0.06);
-                --shadow-lg: 0 20px 25px -5px rgba(2, 132, 199, 0.1), 0 8px 10px -6px rgba(2, 132, 199, 0.1);
-            }
+  <!-- Favicons -->
+  <link href="{% static 'front-end/assets/mesLogos/logoG.jpeg' %}" rel="icon">
+  <link href="{% static 'front-end/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
 
-            body {
-                font-family: 'Poppins', sans-serif;
-                background-color: var(--md-body);
-                color: var(--md-dark);
-            }
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
-            /* --- Barre de Navigation Ultra Clean --- */
-            .site-navbar {
-                background: rgba(255, 255, 255, 0.85) !important;
-                backdrop-filter: blur(12px);
-                -webkit-backdrop-filter: blur(12px);
-                border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-                box-shadow: var(--shadow-sm);
-                padding: 15px 0;
-            }
-            .site-logo a {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-            .site-logo a img {
-                max-height: 45px;
-                width: auto;
-                border-radius: var(--radius-sm);
-            }
-            .site-menu .nav-link {
-                color: var(--md-muted) !important;
-                font-weight: 500 !important;
-                font-size: 0.95rem;
-                padding: 10px 15px !important;
-                transition: all 0.2s ease;
-            }
-            .site-menu .nav-link:hover, 
-            .site-menu li.active .nav-link {
-                color: var(--md-primary) !important;
-            }
-            .btn-nav-accent {
-                background: rgba(2, 132, 199, 0.1);
-                color: var(--md-primary) !important;
-                border-radius: var(--radius-sm);
-                font-weight: 600 !important;
-            }
-            .btn-nav-accent:hover {
-                background: var(--md-primary) !important;
-                color: white !important;
-            }
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'front-end/assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'front-end/assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'front-end/assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'front-end/assets/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+  <link href="{% static 'front-end/assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'front-end/assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
 
-            /* --- Zone Hero Connectée --- */
-            .home_bg {
-                position: relative;
-                padding: 180px 0 140px 0;
-                background-size: cover;
-                background-position: center;
-            }
-            .home_bg::before {
-                content: '';
-                position: absolute;
-                inset: 0;
-                background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(2, 132, 199, 0.75) 100%);
-                z-index: 1;
-            }
-            .hero-text {
-                position: relative;
-                z-index: 2;
-                max-width: 800px;
-                margin: 0 auto;
-            }
-            .hero-text h2 {
-                font-weight: 700;
-                font-size: 3.2rem;
-                line-height: 1.2;
-                color: #ffffff !important;
-                margin-bottom: 25px;
-                text-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            }
-            .hero-text p {
-                font-size: 1.2rem;
-                color: rgba(241, 245, 249, 0.9) !important;
-                font-weight: 300;
-                margin-bottom: 40px;
-                line-height: 1.6;
-            }
-            .hero-buttons .btn-main {
-                background: var(--md-primary) !important;
-                color: white !important;
-                padding: 15px 35px;
-                border-radius: var(--radius-sm);
-                font-weight: 600;
-                box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
-                transition: all 0.2s ease;
-                display: inline-block;
-                margin-right: 15px;
-            }
-            .hero-buttons .btn-main:hover {
-                background: var(--md-primary-hover) !important;
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6);
-            }
-            .hero-buttons .btn-secondary {
-                background: transparent !important;
-                color: white !important;
-                border: 2px solid rgba(255,255,255,0.6) !important;
-                padding: 13px 35px;
-                border-radius: var(--radius-sm);
-                font-weight: 600;
-                transition: all 0.2s ease;
-                display: inline-block;
-            }
-            .hero-buttons .btn-secondary:hover {
-                border-color: white !important;
-                background: rgba(255,255,255,0.1) !important;
-                transform: translateY(-2px);
-            }
+  <!-- Main CSS File -->
+  <link href="{% static 'front-end/assets/css/main.css' %}" rel="stylesheet">
 
-            /* --- Section Compteurs Statistiques (KPI) --- */
-            .kpi-section {
-                position: relative;
-                z-index: 3;
-                margin-top: -60px;
-                padding-bottom: 60px;
-            }
-            .kpi-wrapper {
-                background: #ffffff;
-                border-radius: var(--radius-lg);
-                padding: 30px;
-                box-shadow: var(--shadow-lg);
-                border: 1px solid rgba(226, 232, 240, 0.8);
-            }
-            .kpi-item {
-                text-align: center;
-                padding: 15px;
-                border-right: 1px solid #f1f5f9;
-            }
-            .kpi-item:last-child {
-                border-right: none;
-            }
-            .kpi-icon {
-                font-size: 2rem;
-                color: var(--md-primary);
-                margin-bottom: 10px;
-            }
-            .kpi-number {
-                font-size: 2.2rem;
-                font-weight: 700;
-                color: var(--md-dark);
-                line-height: 1;
-                margin-bottom: 5px;
-            }
-            .kpi-label {
-                font-size: 0.85rem;
-                color: var(--md-muted);
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                font-weight: 500;
-            }
+  <!-- Corrections Responsives Spécifiques Mobile -->
+  <style>
+    @media (max-width: 768px) {
+      /* Réduction des espacements du header sur smartphone */
+      .branding {
+        padding: 12px 0 !important;
+      }
+      .logo h1 {
+        font-size: 1.3rem !important;
+      }
+      .logo img {
+        max-height: 35px !important;
+      }
 
-            /* --- Titres de sections Pro --- */
-            .section-title {
-                margin-bottom: 60px;
-            }
-            .section-title h2 {
-                font-weight: 700;
-                color: var(--md-dark);
-                font-size: 2.2rem;
-                position: relative;
-                display: inline-block;
-                padding-bottom: 15px;
-            }
-            .section-title h2::after {
-                content: '';
-                position: absolute;
-                bottom: 0; left: 50%;
-                transform: translateX(-50%);
-                width: 50px; height: 4px;
-                background: var(--md-primary);
-                border-radius: 2px;
-            }
-            .section-title p {
-                color: var(--md-muted);
-                font-size: 1.1rem;
-                max-width: 600px;
-                margin: 15px auto 0 auto;
-            }
+      /* Ajustement de la taille des textes de la section d'accueil */
+      .hero {
+        padding: 40px 0 20px 0 !important;
+      }
+      .hero h2 {
+        font-size: 22px !important;
+        line-height: 28px !important;
+      }
+      .hero p {
+        font-size: 14px !important;
+        line-height: 20px !important;
+      }
 
-            /* --- Grille des Modules Applicatifs (Cartes) --- */
-            .feature_area {
-                padding: 40px 0 100px 0;
-            }
-            .single_feature {
-                background: #ffffff;
-                border-radius: var(--radius-lg);
-                padding: 45px 35px !important;
-                margin-bottom: 30px;
-                border: 1px solid rgba(226, 232, 240, 0.7);
-                box-shadow: var(--shadow-md);
-                transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-                position: relative;
-                overflow: hidden;
-                height: calc(100% - 30px);
-            }
-            .single_feature::before {
-                content: '';
-                position: absolute;
-                top: 0; left: 0; width: 4px; height: 100%;
-                background: var(--md-primary);
-                opacity: 0;
-                transition: opacity 0.3s ease;
-            }
-            .single_feature:hover {
-                transform: translateY(-5px);
-                box-shadow: var(--shadow-lg);
-                border-color: rgba(2, 132, 199, 0.15);
-            }
-            .single_feature:hover::before {
-                opacity: 1;
-            }
-            .feature-icon-box {
-                width: 65px;
-                height: 65px;
-                background: rgba(2, 132, 199, 0.06);
-                border-radius: var(--radius-sm);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-bottom: 25px;
-                transition: all 0.3s ease;
-            }
-            .single_feature:hover .feature-icon-box {
-                background: var(--md-primary);
-            }
-            .feature-icon-box i {
-                font-size: 1.6rem;
-                color: var(--md-primary);
-                transition: all 0.3s ease;
-            }
-            .single_feature:hover .feature-icon-box i {
-                color: #ffffff;
-            }
-            .single_feature h4 {
-                font-size: 1.25rem;
-                font-weight: 600;
-                color: var(--md-dark);
-                margin-bottom: 12px;
-            }
-            .single_feature p {
-                font-size: 0.92rem;
-                color: var(--md-muted);
-                line-height: 1.6;
-                margin-bottom: 0;
-            }
+      /* Amélioration visuelle des blocs (Urgences, Labo, Pharmacie) */
+      .hero .content {
+        margin-top: 15px !important;
+      }
+      .why-box {
+        padding: 25px 20px !important;
+        border-radius: 8px;
+      }
+      .why-box h3 {
+        font-size: 22px !important;
+      }
+      .icon-box {
+        padding: 20px !important;
+        text-align: center;
+        border-radius: 8px;
+      }
 
-            /* --- Footer épuré --- */
-            .medical-footer {
-                background: #0f172a;
-                color: #94a3b8;
-                padding: 30px 0;
-                font-size: 0.9rem;
-                border-top: 1px solid #1e293b;
-            }
-            .medical-footer a {
-                color: #ffffff;
-                text-decoration: none;
-            }
-            .medical-footer a:hover {
-                color: var(--md-primary);
-            }
-        </style>
-    </head>
-    
-    <body data-spy="scroll" data-offset="80">
+      /* Redimensionnement de la carte Google Maps pour éviter les gros blocs noirs */
+      #contact iframe {
+        height: 220px !important;
+      }
 
-        <!-- START PRELOADER -->
-        <div class="preloader">
-            <div class="spinner">
-                <div class="double-bounce1"></div>
-                <div class="double-bounce2"></div>
-            </div>
+      /* Formulaire de contact mieux proportionné */
+      .php-email-form {
+        padding: 20px !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header sticky-top d-flex flex-column">
+
+    <!-- Topbar masquée sur mobile (d-none d-md-flex) pour économiser 50px d'écran précieux -->
+    <div class="topbar d-none d-md-flex align-items-center">
+      <div class="container d-flex justify-content-center justify-content-md-between">
+        <div class="contact-info d-flex align-items-center">
+          <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@jmd-hopital.com">contact@jmd-hopital.com</a></i>
+          <i class="bi bi-phone d-flex align-items-center ms-4"><span>+243 812 345 678</span></i>
         </div>
-        <!-- END PRELOADER -->      
-
-        <!-- START NAVBAR -->
-        <div class="site-mobile-menu site-navbar-target">
-          <div class="site-mobile-menu-header">
-            <div class="site-mobile-menu-close mt-3">
-              <span class="icon-close2 js-menu-toggle"></span>
-            </div>
-          </div>
-          <div class="site-mobile-menu-body"></div>
+        <div class="social-links d-none d-md-flex align-items-center">
+          <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
         </div>
-       
-        <header class="site-navbar js-sticky-header site-navbar-target" role="banner">
-          <div class="container">
-            <div class="row align-items-center">       
-              <div class="col-6 col-xl-3">
-                <h1 class="mb-0 site-logo">
-                    <a href="#" class="font-weight-bold text-decoration-none" style="color: var(--md-dark); font-size: 1.4rem; letter-spacing: -0.5px;">
-                        <img src="{% static 'front-end/assets/img/dr/logoG.jpeg' %}" alt="Logo JMC Hospital">
-                        JMD<span style="color: var(--md-primary);">Hospital</span>
-                    </a>
-                </h1>
-              </div>
-              <div class="col-12 col-md-9 d-none d-xl-block">
-                <nav class="site-navigation position-relative text-right" role="navigation">
-                  <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                    <li class="active"><a href="#home" class="nav-link">Accueil</a></li>   
-                    <li><a class="nav-link" href="#modules">Modules App</a></li>
-                    <li><a class="nav-link" href="#kpi">Indicateurs</a></li>
-                    {% comment %} <li class="has-children">
-                      <a href="#" class="nav-link">Accès Rapide</a>
-                      <ul class="dropdown">
-                        <li><a href="#" class="nav-link"><i class="fa fa-user-md mr-2"></i>Espace Médecin</a></li>
-                        <li><a href="#" class="nav-link"><i class="fa fa-pills mr-2"></i>Stocks Pharmacie</a></li>
-                        <li><a href="#" class="nav-link"><i class="fa fa-flask mr-2"></i>Labo & Analyses</a></li>
-                      </ul>
-                    </li>                     {% endcomment %}
-                    <li><a class="nav-link btn-nav-accent ml-3" href="#"><i class="fa fa-lock mr-2"></i>Connexion ERP</a></li>                  
-                  </ul>
-                </nav>
-              </div>
-              <div class="col-6 d-inline-block d-xl-none ml-md-0 py-3" style="position: relative; top: 3px;">
-                <a href="#" class="site-menu-toggle js-menu-toggle float-right"><span class="icon-menu h3"></span></a>
+      </div>
+    </div><!-- End Top Bar -->
+
+    <div class="branding d-flex align-items-center">
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+        
+        <a href="#" class="logo d-flex align-items-center me-auto">
+          <img src="{% static 'front-end/assets/mesLogos/logoG.jpeg' %}" alt="Logo JMD" class="img-fluid" style="max-height: 40px; border-radius: 5px;"> 
+          <h1 class="sitename ms-2">JMD</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="#hero" class="active">Accueil</a></li>
+            <li><a href="#about">À propos</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#departments">Départements</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        <!-- Masqué sur petit écran mobile, s'affiche à partir de l'écran 'sm' (tablettes) -->
+        <a class="cta-btn d-none d-sm-block" href="#appointment">Prendre un Rendez-vous</a>
+      </div>
+    </div>
+
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section light-background">
+      <img src="{% static 'front-end/assets/img/hero-bg.jpg' %}" alt="Arrière-plan Médical" data-aos="fade-in">
+
+      <div class="container position-relative">
+        <div class="welcome position-relative" data-aos="fade-down" data-aos-delay="100">
+          <h2>BIENVENUE AU CENTRE HOSPITALIER JMD</h2>
+          <p>Une prise en charge médicale d'excellence, humaine, rapide et entièrement numérisée pour votre confort.</p>
+        </div><!-- End Welcome -->
+
+        <div class="content row gy-4">
+          <div class="col-lg-4 d-flex align-items-stretch">
+            <div class="why-box" data-aos="zoom-out" data-aos-delay="200">
+              <h3>Pourquoi choisir notre structure ?</h3>
+              <p>
+                Le Centre Hospitalier propose un écosystème de soins moderne. Grâce à notre gestion intégrée, le suivi de votre dossier médical, vos passages au laboratoire et vos prescriptions en pharmacie sont entièrement sécurisés et instantanés.
+              </p>
+              <div class="text-center">
+                <a href="#about" class="more-btn"><span>En savoir plus</span> <i class="bi bi-chevron-right"></i></a>
               </div>
             </div>
-          </div>
-        </header>
-        <!-- END NAVBAR-->               
-    
-        <!-- START HOME (HERO) -->
-        <section id="home" class="home_bg" style="background-image: url({% static 'front-end/assets/img/dr/logoG.jpeg' %});">
-            <div class="container">
-                <div class="row">
-                  <div class="col-lg-12 text-center">
-                    <div class="hero-text">
-                        <span class="badge badge-pill badge-info px-3 py-2 mb-3 strings" style="background: rgba(14, 165, 233, 0.2); color: #38bdf8; font-weight: 500;">Version 2.0 — Production</span>
-                        <h2>Système Intégré de Gestion Hospitalière</h2>
-                        <p>Optimisez la prise en charge médicale, sécurisez le circuit du médicament et suivez vos flux financiers en temps réel.</p>
-                        <div class="hero-buttons">
-                            <a href="#modules" class="btn-main text-decoration-none">Ouvrir les Modules</a>     
-                            {% comment %} <a href="#" class="btn-secondary text-decoration-none"><i class="fa fa-file-text-o mr-2"></i>Fiche Patient</a>      {% endcomment %}
-                        </div>
-                    </div>
+          </div><!-- End Why Box -->
+
+          <div class="col-lg-8 d-flex align-items-stretch">
+            <div class="d-flex flex-column justify-content-center">
+              <div class="row gy-4">
+
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box" data-aos="zoom-out" data-aos-delay="300">
+                    <i class="bi bi-heart-pulse"></i>
+                    <h4>Urgences &amp; Triage</h4>
+                    <p>Une équipe réactive prête pour une orientation immédiate et une prise en charge critique 24h/24.</p>
                   </div>
-                </div>
-            </div>
-        </section>
-        <!-- END HOME -->  
+                </div><!-- End Icon Box -->
 
-        <!-- START KPI DASHBOARD STRIP -->
-        <section id="kpi" class="kpi-section">
-            <div class="container">
-                <div class="kpi-wrapper">
-                    <div class="row">
-                        <div class="col-6 col-md-3">
-                            <div class="kpi-item">
-                                <div class="kpi-icon"><i class="ti-user"></i></div>
-                                <div class="kpi-number">142</div>
-                                <div class="kpi-label">Patients admis</div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <div class="kpi-item">
-                                <div class="kpi-icon"><i class="ti-layout-grid2"></i></div>
-                                <div class="kpi-number">84%</div>
-                                <div class="kpi-label">Occupation lits</div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <div class="kpi-item">
-                                <div class="kpi-icon"><i class="ti-pulse"></i></div>
-                                <div class="kpi-number">18</div>
-                                <div class="kpi-label">Consultations en cours</div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <div class="kpi-item">
-                                <div class="kpi-icon"><i class="ti-alert text-danger"></i></div>
-                                <div class="kpi-number">3</div>
-                                <div class="kpi-label">Urgences critiques</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- END KPI DASHBOARD STRIP -->
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box" data-aos="zoom-out" data-aos-delay="400">
+                    <i class="bi bi-capsule"></i>
+                    <h4>Pharmacie Intégrée</h4>
+                    <p>Disponibilité continue des molécules essentielles directement reliée aux ordonnances des consultations.</p>
+                  </div>
+                </div><!-- End Icon Box -->
 
-        <!-- MODULES APPLICATIFS -->
-        <section id="modules" class="feature_area">
-            <div class="container"> 
-                <div class="row">
-                    <div class="col-12 section-title text-center">     
-                        <h2>Modules de Gestion Hospitalière</h2>
-                        <p>Une architecture logicielle modulaire pour couvrir l'intégralité de l'activité clinique et administrative.</p>
-                    </div>                  
-                </div>
-                
-                <div class="row">
-                    <!-- MODULE 1: Consultations -->
-                    <div class="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
-                        <div class="single_feature">
-                            <div class="feature-icon-box">
-                                <i class="fa fa-user-md"></i>
-                            </div>
-                            <h4>Gestion des Consultations</h4>
-                            <p>Dossier Médical Partagé (DMP), saisie des constantes cliniques, ordonnances électroniques et historique complet.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- MODULE 2: Pharmacie -->
-                    <div class="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-                        <div class="single_feature">
-                            <div class="feature-icon-box">
-                                <i class="fa fa-pills"></i>
-                            </div>
-                            <h4>Gestion Pharmacie</h4>
-                            <p>Entrées/sorties de stock, inventaire valorisé, alertes automatiques de seuil critique et de péremption de lots.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- MODULE 3: Laboratoire -->
-                    <div class="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
-                        <div class="single_feature">
-                            <div class="feature-icon-box">
-                                <i class="fa fa-flask"></i>
-                            </div>
-                            <h4>Analyses &amp; Laboratoire</h4>
-                            <p>Demandes d'examens interconnectées, saisie des paillasses, validation biologique et transmission sécurisée.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- MODULE 4: Finance -->
-                    <div class="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.4s">
-                        <div class="single_feature">
-                            <div class="feature-icon-box">
-                                <i class="fa fa-money"></i>
-                            </div>
-                            <h4>Facturation &amp; Encaissements</h4>
-                            <p>Émission automatisée des factures d'actes, gestion des prises en charge mutuelles et intégration API Mobile Money.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- MODULE 5: Hospitalisation -->
-                    <div class="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <div class="single_feature">
-                            <div class="feature-icon-box">
-                                <i class="fa fa-bed"></i>
-                            </div>
-                            <h4>Admissions &amp; Lits</h4>
-                            <p>Cartographie en temps réel des lits par pavillon, planification des mouvements de patients et des sorties d'hospitalisation.</p>
-                        </div>
-                    </div>      
-                    
-                    <!-- MODULE 6: Rapports -->
-                    <div class="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s">
-                        <div class="single_feature">
-                            <div class="feature-icon-box">
-                                <i class="fa fa-bar-chart"></i>
-                            </div>
-                            <h4>Statistiques &amp; Rapports</h4>
-                            <p>Génération instantanée des rapports d'activité SNIS, tableaux de bord financiers et indicateurs de performance clés.</p>
-                        </div>
-                    </div>              
-                </div>
-            </div>
-        </section>
-        <!-- END MODULES APPLICATIFS -->
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box" data-aos="zoom-out" data-aos-delay="500">
+                    <i class="bi bi-droplet"></i>
+                    <h4>Laboratoire &amp; Analyses</h4>
+                    <p>Examens bio-médicaux précis et traitement informatisé des échantillons pour des résultats rapides.</p>
+                  </div>
+                </div><!-- End Icon Box -->
 
-        <!-- FOOTER CLASSIQUE -->
-        <footer class="medical-footer text-center">
-            <div class="container">
-                <p class="mb-0">&copy; 2026 <strong>JMD Hospital</strong>. Tous droits réservés. Système d'Information Hospitalier Sécurisé.</p>
+              </div>
             </div>
-        </footer>
-        
-        <!-- Scripts JS d'origine -->
-        <script src="{% static 'front-end/assets/js/jquery-1.12.4.min.js' %}"></script>
-        <script src="{% static 'front-end/assets/bootstrap/js/bootstrap.min.js' %}"></script>
-        <script src="{% static 'front-end/assets/js/modernizr-2.8.3.min.js' %}"></script>                                                                                                                                                                                                                                                               
-        <script src="{% static 'front-end/assets/owlcarousel/js/owl.carousel.min.js' %}"></script>                   
-        <script src="{% static 'front-end/assets/js/jquery.magnific-popup.min.js' %}"></script>          
-        <script src="{% static 'front-end/assets/js/jquery.mixitup.js' %}"></script>         
-        <script src="{% static 'front-end/assets/js/jquery.appear.js' %}"></script>                                                                          
-        <script src="{% static 'front-end/assets/js/jquery.inview.min.js' %}"></script>  
-        <script src="{% static 'front-end/assets/js/jquery.stellar.min.js' %}"></script>         
-        <script src="{% static 'front-end/assets/js/wow.min.js' %}"></script>    
-        <script src="{% static 'front-end/assets/js/menu.js' %}"></script>                                                                                                                                                                                                                                                   
-        <script src="{% static 'front-end/assets/js/jquery.sticky.js' %}"></script>      
-        <script src="{% static 'front-end/assets/js/form-contact.js' %}"></script>               
-        <script src="{% static 'front-end/assets/js/scrolltopcontrol.js' %}"></script>                                                                                                                                                                                                                                                   
-        <script src="{% static 'front-end/assets/js/scripts.js' %}"></script>        
-    </body>
+          </div>
+        </div><!-- End Content-->
+      </div>
+    </section><!-- /Hero Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+      <div class="container">
+        <div class="row gy-4 gx-5">
+          <div class="col-lg-6 position-relative align-self-start" data-aos="fade-up" data-aos-delay="200">
+            <img src="{% static 'front-end/assets/img/about.jpg' %}" class="img-fluid" alt="Présentation Clinique">
+            <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
+          </div>
+
+          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
+            <h3>À propos de nous</h3>
+            <p>
+              Notre établissement combine l'expertise de professionnels de santé passionnés avec des outils technologiques de pointe. Notre priorité absolue reste la simplification du parcours du patient, depuis l'admission jusqu'à sa convalescence complète.
+            </p>
+            <ul>
+              <li>
+                <i class="fa-solid fa-vial-circle-check"></i>
+                <div>
+                  <h5>Suivi Clinique Rigoureux</h5>
+                  <p>Vos constantes et antécédents sont centralisés informatiquement pour éviter toute erreur médicale.</p>
+                </div>
+              </li>
+              <li>
+                <i class="fa-solid fa-pump-medical"></i>
+                <div>
+                  <h5>Hygiène et Cadre Hospitalier aux Normes</h5>
+                  <p>Des espaces stériles, contrôlés et pensés pour le calme et le rétablissement complet des patients.</p>
+                </div>
+              </li>
+              <li>
+                <i class="fa-solid fa-heart-circle-check"></i>
+                <div>
+                  <h5>Éthique et Confidentialité</h5>
+                  <p>Le secret médical est au cœur de notre système de gestion de données cliniques.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section><!-- /About Section -->
+
+    <!-- Stats Section -->
+    <section id="stats" class="stats section light-background">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4">
+
+          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+            <i class="fa-solid fa-user-doctor"></i>
+            <div class="stats-item">
+              <span data-purecounter-start="0" data-purecounter-end="35" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Médecins &amp; Spécialistes</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+            <i class="fa-regular fa-hospital"></i>
+            <div class="stats-item">
+              <span data-purecounter-start="0" data-purecounter-end="12" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Services Médicaux</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+            <i class="fas fa-flask"></i>
+            <div class="stats-item">
+              <span data-purecounter-start="0" data-purecounter-end="4" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Unités de Labo</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+          <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+            <i class="fas fa-bed"></i>
+            <div class="stats-item">
+              <span data-purecounter-start="0" data-purecounter-end="120" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Capacité Lits Capables</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+        </div>
+      </div>
+    </section><!-- /Stats Section -->
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Nos Prestations</h2>
+        <p>Une offre complète de soins pour toute la famille, disponible au quotidien.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+        <div class="row gy-4">
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-item position-relative">
+              <div class="icon"><i class="fas fa-heartbeat"></i></div>
+              <a href="#" class="stretched-link"><h3>Consultations Générales</h3></a>
+              <p>Diagnostic complet, check-up général et orientation optimale pour la prévention de votre santé.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item position-relative">
+              <div class="icon"><i class="fas fa-pills"></i></div>
+              <a href="#" class="stretched-link"><h3>Gestion Pharmacie</h3></a>
+              <p>Délivrance contrôlée des ordonnances, suivi des stocks de médicaments en temps réel.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item position-relative">
+              <div class="icon"><i class="fas fa-hospital-user"></i></div>
+              <a href="#" class="stretched-link"><h3>Suivi des Hospitalisations</h3></a>
+              <p>Surveillance médicale continue en chambre par nos équipes infirmières et médecins de garde.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="service-item position-relative">
+              <div class="icon"><i class="fas fa-dna"></i></div>
+              <a href="#" class="stretched-link"><h3>Examens Biologiques</h3></a>
+              <p>Analyses sanguines, bilans hormonaux et diagnostics moléculaires de haute précision.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+            <div class="service-item position-relative">
+              <div class="icon"><i class="fas fa-baby"></i></div>
+              <a href="#" class="stretched-link"><h3>Maternité &amp; Néonatalogie</h3></a>
+              <p>Accompagnement bienveillant des futures mamans et suivi pédiatrique dès la naissance.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+            <div class="service-item position-relative">
+              <div class="icon"><i class="fas fa-notes-medical"></i></div>
+              <a href="#" class="stretched-link"><h3>Suivi de Facturation</h3></a>
+              <p>Transparence totale sur les coûts des actes médicaux avec facturation claire et informatisée.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+        </div>
+      </div>
+    </section><!-- /Services Section -->
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Contact &amp; Localisation</h2>
+        <p>Trouvez notre établissement ou contactez directement notre secrétariat médical.</p>
+      </div><!-- End Section Title -->
+
+      <div class="mb-5" data-aos="fade-up" data-aos-delay="200">
+        <iframe style="border:0; width: 100%; height: 270px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3978.508314118045!2d15.306!3d-4.325!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sKinshasa!5e0!3m2!1sfr!2scd!4v1676961268712!5m2!1sfr!2scd" frameborder="0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div><!-- End Google Maps -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4">
+          <div class="col-lg-4">
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+              <i class="bi bi-geo-alt flex-shrink-0"></i>
+              <div>
+                <h3>Adresse</h3>
+                <p>Boulevard du 30 Juin, Gombe, Kinshasa, RDC</p>
+              </div>
+            </div><!-- End Info Item -->
+
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+              <i class="bi bi-telephone flex-shrink-0"></i>
+              <div>
+                <h3>Téléphone</h3>
+                <p>+243 812 345 678</p>
+              </div>
+            </div><!-- End Info Item -->
+
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="500">
+              <i class="bi bi-envelope flex-shrink-0"></i>
+              <div>
+                <h3>Email</h3>
+                <p>info@jmd-hopital.com</p>
+              </div>
+            </div><!-- End Info Item -->
+          </div>
+
+          <div class="col-lg-8">
+            <form action="#" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+              {% csrf_token %}
+              <div class="row gy-4">
+                <div class="col-md-6">
+                  <input type="text" name="name" class="form-control" placeholder="Votre nom complet" required="">
+                </div>
+                <div class="col-md-6 ">
+                  <input type="email" class="form-control" name="email" placeholder="Votre adresse email" required="">
+                </div>
+                <div class="col-md-12">
+                  <input type="text" class="form-control" name="subject" placeholder="Sujet du message" required="">
+                </div>
+                <div class="col-md-12">
+                  <textarea class="form-control" name="message" rows="6" placeholder="Votre message ou demande d'information" required=""></textarea>
+                </div>
+                <div class="col-md-12 text-center">
+                  <button type="submit">Envoyer le message</button>
+                </div>
+              </div>
+            </form>
+          </div><!-- End Contact Form -->
+        </div>
+      </div>
+    </section><!-- /Contact Section -->
+
+  </main>
+
+  <footer id="footer" class="footer light-background">
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="#" class="logo d-flex align-items-center">
+            <span class="sitename">JMD</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p>Boulevard du 30 Juin, Gombe</p>
+            <p>Kinshasa, RDC</p>
+            <p class="mt-3"><strong>Téléphone :</strong> <span>+243 812 345 678</span></p>
+            <p><strong>Email :</strong> <span>info@jmd-hopital.com</span></p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 footer-links">
+          <h4>Liens utiles</h4>
+          <ul>
+            <li><a href="#hero">Accueil</a></li>
+            <li><a href="#about">À propos</a></li>
+            <li><a href="#services">Nos prestations</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-6 footer-links">
+          <h4>Nos Services ERP</h4>
+          <ul>
+            <li><a href="#">Triage &amp; Urgences</a></li>
+            <li><a href="#">Gestion Pharmacie</a></li>
+            <li><a href="#">Laboratoire d'analyses</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">JMD</strong> <span>Tous droits réservés</span></p>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'front-end/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'front-end/assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'front-end/assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'front-end/assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'front-end/assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+  <!-- Main JS File -->
+  <script src="{% static 'front-end/assets/js/main.js' %}"></script>
+
+</body>
 </html>
